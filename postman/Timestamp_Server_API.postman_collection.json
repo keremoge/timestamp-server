@@ -1,0 +1,191 @@
+{
+  "info": {
+    "_postman_id": "a28b97c3-5f5e-4453-a771-3a687c8c885d",
+    "name": "Timestamp Server API",
+    "description": "Collection for testing the RFC 3161 Timestamp Server API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Timestamp",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"version\": 1,\n  \"messageImprint\": {\n    \"hashAlgorithm\": {\n      \"algorithm\": \"2.16.840.1.101.3.4.2.1\",\n      \"parameters\": null\n    },\n    \"hashedMessage\": \"3a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d\"\n  },\n  \"reqPolicy\": \"1.3.6.1.4.1.13762.3\",\n  \"nonce\": \"9b1deb4d3b7d4bad9bdd2b0d7b3dcb6d\",\n  \"certReq\": true,\n  \"extensions\": [\n    {\n      \"critical\": false,\n      \"extnID\": \"1.2.840.113549.1.9.16.2.4\",\n      \"extnValue\": {\n        \"acceptableResponseTypes\": [\"1.2.840.113549.1.9.16.1.4\"]\n      }\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timestamp",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "timestamp"
+          ]
+        },
+        "description": "Create a timestamp token based on the provided hash"
+      },
+      "response": []
+    },
+    {
+      "name": "Verify Timestamp (String Token)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"timeStampToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\",\n  \"messageImprint\": \"3a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/verify",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "verify"
+          ]
+        },
+        "description": "Verify a timestamp token (as string) against a message imprint (hash)"
+      },
+      "response": []
+    },
+    {
+      "name": "Verify Timestamp (JSON Object)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"timeStampToken\": {\n      \"contentType\": \"1.2.840.113549.1.7.2\",\n      \"content\": {\n        \"version\": 3,\n        \"digestAlgorithms\": [\n          {\n            \"algorithm\": \"2.16.840.1.101.3.4.2.1\",\n            \"parameters\": null\n          }\n        ],\n        \"encapContentInfo\": {\n          \"eContentType\": \"1.2.840.113549.1.9.16.1.4\",\n          \"eContent\": {\n            \"tstInfo\": {\n              \"version\": 1,\n              \"policy\": \"1.3.6.1.4.1.13762.3\",\n              \"messageImprint\": {\n                \"hashAlgorithm\": {\n                  \"algorithm\": \"2.16.840.1.101.3.4.2.1\",\n                  \"parameters\": null\n                },\n                \"hashedMessage\": \"3a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d\"\n              },\n              \"serialNumber\": \"123456789\",\n              \"genTime\": \"2025-04-24T12:00:00Z\",\n              \"accuracy\": {\n                \"seconds\": 1,\n                \"millis\": 0,\n                \"micros\": 0\n              },\n              \"ordering\": false,\n              \"nonce\": \"9b1deb4d3b7d4bad9bdd2b0d7b3dcb6d\",\n              \"tsa\": {\n                \"rdnSequence\": [\n                  {\n                    \"type\": \"2.5.4.3\",\n                    \"value\": \"Timestamp Authority\"\n                  }\n                ]\n              },\n              \"extensions\": []\n            }\n          }\n        },\n        \"certificates\": [],\n        \"crls\": [],\n        \"signerInfos\": [\n          {\n            \"version\": 1,\n            \"sid\": {\n              \"issuerAndSerialNumber\": {\n                \"issuer\": {\n                  \"rdnSequence\": [\n                    {\n                      \"type\": \"2.5.4.3\",\n                      \"value\": \"Timestamp Authority\"\n                    }\n                  ]\n                },\n                \"serialNumber\": \"123456789\"\n              }\n            },\n            \"digestAlgorithm\": {\n              \"algorithm\": \"2.16.840.1.101.3.4.2.1\",\n              \"parameters\": null\n            },\n            \"signedAttrs\": [\n              {\n                \"attrType\": \"1.2.840.113549.1.9.3\",\n                \"attrValues\": [\"1.2.840.113549.1.9.16.1.4\"]\n              },\n              {\n                \"attrType\": \"1.2.840.113549.1.9.4\",\n                \"attrValues\": [\"3a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f\"]\n              },\n              {\n                \"attrType\": \"1.2.840.113549.1.9.5\",\n                \"attrValues\": [\"20250424120000Z\"]\n              }\n            ],\n            \"signatureAlgorithm\": {\n              \"algorithm\": \"1.2.840.113549.1.1.11\",\n              \"parameters\": null\n            },\n            \"signature\": \"abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890\",\n            \"unsignedAttrs\": []\n          }\n        ]\n      }\n    },\n  \"messageImprint\": \"3a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/verify",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "verify"
+          ]
+        },
+        "description": "Verify a timestamp token (as JSON object) against a message imprint (hash)"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Timestamp Info",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/timestamp/info?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "timestamp",
+            "info"
+          ],
+          "query": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+            }
+          ]
+        },
+        "description": "Get information about a timestamp token"
+      },
+      "response": []
+    },
+    {
+      "name": "Get TSA Info",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/info",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "info"
+          ]
+        },
+        "description": "Get information about the TSA server"
+      },
+      "response": []
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "health"
+          ]
+        },
+        "description": "Check if the server is up and running"
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
+}

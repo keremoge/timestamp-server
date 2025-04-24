@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: timestamp-server
+
+server:
+  port: 8080
+
+# Logging configuration optimized for Docker
+logging:
+  level:
+    root: INFO
+    com.albaraka.tsa.timestampserver: INFO
+    org.springframework.web: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
+
+# TSA Configuration
+tsa:
+  certificates:
+    keystore:
+      path: /app/keystores/keystore.jks
+      password: ${KEYSTORE_PASSWORD:changeit}
+      alias: ${KEYSTORE_ALIAS:tsa}
